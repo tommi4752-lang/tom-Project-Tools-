@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#8b00ef">
+<title>Tom Project Tools</title>
+<style>
+:root{--purple:#9700f5;--purple2:#6e00d8;--pink:#ff2ea6;--yellow:#ffe957;--ink:#090611;--white:#fff;--muted:#6f6278;--bg:#f8f4ff}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;color:var(--ink)}
+body{background:var(--bg);background-image:linear-gradient(120deg,transparent 0 40%,#8b00ef0c 40% 48%,transparent 48% 70%,#8b00ef0b 70% 78%,transparent 78%)}
+button,input{font:inherit}
+button{cursor:pointer;color:inherit;font-weight:900;border:3px solid var(--ink);border-radius:18px;box-shadow:0 4px 0 var(--ink);transition:transform .12s,box-shadow .12s}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+input{border:3px solid var(--ink);border-radius:13px;padding:13px 14px;width:100%;background:#fff;font-weight:700;outline:none;box-shadow:0 3px 0 var(--ink)}
+input:focus{border-color:#5d00a8}
+.page{display:none;min-height:100vh;padding:20px 16px 100px;max-width:620px;margin:auto}
+#awal{display:flex;min-height:100vh;align-items:center;justify-content:center;padding:25px 20px;text-align:center;background:repeating-linear-gradient(135deg,#fff 0 40px,#f4e9ff 40px 80px)}
+.splash-card{width:100%;max-width:390px;border:4px solid var(--ink);border-radius:30px;background:#fff;box-shadow:9px 9px 0 var(--ink);padding:26px 22px}
+.splash-logo{width:112px;height:112px;margin:0 auto 18px;border:4px solid var(--ink);border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#b900ff,#7200e8);font-size:58px;box-shadow:0 5px 0 var(--ink)}
+h1{font-size:32px;line-height:1.05;margin:8px 0;letter-spacing:-1px}
+.purple-text{color:var(--purple)}
+.lead{font-size:13px;color:#66566e;line-height:1.55;font-weight:700}
+.big-btn{width:100%;padding:14px 16px;background:var(--yellow);font-size:17px;font-style:italic;margin-top:13px}
+.pink-btn{background:var(--pink);color:white;padding:12px;width:100%;margin-top:10px}
+.purple-btn{background:var(--purple);color:#fff;padding:13px;width:100%;margin-top:10px}
+#intro{display:none;position:fixed;inset:0;z-index:30;background:#000}
+#videoIntro{width:100%;height:100%;object-fit:contain}
+#skip{position:absolute;top:18px;right:16px;background:var(--pink);color:white;padding:9px 14px;border-color:#000}
+.topline{display:flex;justify-content:space-between;align-items:center;margin:0 0 19px}
+.brand{font-size:17px;font-weight:1000;letter-spacing:-.5px}
+.brand small{display:block;font-size:10px;color:var(--purple);letter-spacing:2px;margin-top:3px}
+.avatar{width:43px;height:43px;border:3px solid #000;border-radius:50%;display:grid;place-items:center;background:var(--yellow);font-size:23px;box-shadow:3px 3px 0 #000}
+.pill{display:inline-block;background:#fff;border:3px solid #000;border-radius:99px;padding:8px 15px;font-size:11px;font-weight:1000;box-shadow:3px 3px 0 #000}
+.hero{border:4px solid #000;border-radius:25px;padding:21px;background:linear-gradient(140deg,#fff,#f4e5ff);box-shadow:6px 6px 0 #000;margin:12px 0 24px;position:relative;overflow:hidden}
+.hero:after{content:"✦";position:absolute;right:13px;top:2px;font-size:75px;color:#9700f51c}
+.hero h2{font-size:29px;line-height:1.04;margin:15px 0 8px;max-width:290px}
+.hero p{font-size:13px;line-height:1.5;color:#62536c;font-weight:700;max-width:320px}
+.hero .big-btn{position:relative;z-index:1}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:22px 0 12px}
+.section-title h3{margin:0;font-size:18px}
+.section-title small{font-weight:900;color:var(--purple)}
+.search{margin:12px 0 17px}
+.search input{border-radius:99px;padding:14px 18px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.tool{min-height:153px;text-align:center;background:var(--purple);color:#fff;padding:14px 10px;border-radius:21px;box-shadow:4px 5px 0 #000;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
+.tool .ico{width:43px;height:43px;border:2px solid #000;border-radius:13px;background:#fff;color:var(--purple);display:grid;place-items:center;font-size:24px;margin-bottom:9px;box-shadow:2px 2px 0 #000}
+.tool strong{font-size:13px;line-height:1.2}
+.tool small{font-size:10px;line-height:1.35;margin-top:5px;color:#f7eaff;font-weight:700}
+.tool em{font-size:9px;font-style:normal;background:#fff;color:#7200c7;border:2px solid #000;border-radius:99px;padding:4px 9px;margin-top:9px}
+.header{display:flex;align-items:center;gap:12px;margin:4px 0 23px}
+.back{width:43px;height:43px;background:#fff;font-size:22px;flex-shrink:0}
+.header h2{font-size:23px;margin:0}
+.eyebrow{font-size:10px;font-weight:1000;letter-spacing:2px;color:var(--purple);margin:0 0 5px}
+.panel{border:4px solid #000;border-radius:24px;background:#fff;padding:19px;box-shadow:6px 6px 0 #000;margin:15px 0}
+.panel h3{margin:0 0 8px;font-size:19px}
+.desc{font-size:13px;color:#66566e;line-height:1.55;font-weight:700}
+.status{font-size:12px;font-weight:800;line-height:1.5;overflow-wrap:anywhere}
+.status:empty{display:none}
+.field-label{display:block;font-size:12px;font-weight:1000;margin:16px 0 7px}
+#fileMusic{display:none}
+.file-label{display:block;text-align:center;background:#fff;border:3px dashed #000;border-radius:15px;padding:14px;margin:15px 0 8px;font-size:13px;font-weight:1000;cursor:pointer}
+.music-art{width:155px;height:155px;border:4px solid #000;border-radius:26px;background:linear-gradient(140deg,#bd00ff,#ff36a8);display:grid;place-items:center;font-size:67px;margin:20px auto;box-shadow:6px 6px 0 #000}
+.song-name{text-align:center;font-size:18px;font-weight:1000;overflow-wrap:anywhere}
+.song-info{text-align:center;font-size:12px;color:#75667c;margin-top:5px}
+#seekBar{width:100%;accent-color:var(--purple);margin-top:20px;box-shadow:none;border:0;padding:0}
+.time-row{display:flex;justify-content:space-between;font-size:11px;font-weight:900}
+.music-controls{display:flex;gap:9px;justify-content:center;margin:18px 0}
+.music-controls button{padding:12px 13px;background:#fff}
+#playBtn{background:var(--yellow);min-width:110px}
+.volume-row{display:flex;align-items:center;gap:10px}
+#volumeBar{box-shadow:none;border:0;padding:0;accent-color:var(--purple)}
+.bottom-nav{position:fixed;z-index:20;bottom:12px;left:12px;right:12px;max-width:500px;margin:auto;border:4px solid #000;border-radius:99px;background:#100c16;color:#aaa;display:none;grid-template-columns:repeat(4,1fr);padding:6px;box-shadow:0 5px 0 #000}
+.nav-btn{border:0;box-shadow:none;border-radius:99px;background:transparent;color:#bbb;padding:7px 4px;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.nav-btn span{font-size:19px}
+.nav-btn.active{background:#fff;color:#000}
+.nav-btn:active{transform:scale(.97);box-shadow:none}
+.notice{background:#fff4b0;border:3px solid #000;border-radius:14px;padding:12px;font-size:11px;font-weight:800;line-height:1.5;margin-top:17px}
+.empty{grid-column:1/-1;text-align:center;background:#fff;border:3px solid #000;border-radius:16px;padding:20px;font-weight:800}
+@media(max-width:360px){.page{padding-left:12px;padding-right:12px}.grid{gap:10px}.tool{padding:12px 7px;min-height:145px}.tool strong{font-size:12px}.hero h2{font-size:25px}}
+
+.wa-react-panel{background:linear-gradient(145deg,#17003e,#0b0320);color:#fff;border:1px solid #4b12a6;box-shadow:0 0 0 1px #16002f,0 12px 30px #6b00ff22}
+.wa-kicker{display:inline-block;color:#ffe957;font-weight:900;letter-spacing:2px;font-size:11px}
+.wa-label{color:#ffe957!important;margin-top:18px}
+.wa-help{font-size:12px;color:#d9cfee;margin-top:7px}
+.wa-help b{color:#ffe957}
+.wa-emoji-row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 16px}
+.wa-emoji-row button{background:#1f1040;color:#fff;border:1px solid #6d37b8;box-shadow:none;border-radius:12px;padding:7px 10px;font-size:20px}
+.wa-emoji-row button:active{transform:scale(.94);box-shadow:none}
+.wa-captcha{display:flex;align-items:center;gap:11px;background:#f7f9ff;color:#1c1c1c;border:1px solid #c8d0e0;border-radius:13px;padding:13px;margin-top:12px;box-shadow:none}
+.wa-check{width:31px;height:31px;border:2px solid #9aa5b6;display:grid;place-items:center;border-radius:4px;color:#19a963;font-size:22px;font-weight:900;background:#fff}
+.wa-captcha small{display:block;color:#626a78;font-size:9px;margin-top:3px}
+.wa-captcha-mark{margin-left:auto;color:#68717e;font-size:10px;font-weight:800}
+.wa-send-btn{width:100%;margin-top:17px;padding:15px;background:linear-gradient(90deg,#ff00d4,#b600ff);color:#fff;border:2px solid #ffea57;border-radius:14px;box-shadow:0 5px 0 #6a008e;letter-spacing:3px;font-size:15px}
+.wa-send-btn:active{transform:translateY(4px);box-shadow:0 1px 0 #6a008e}
+.wa-tutorial{background:#17003e;color:#fff;border:1px solid #4b12a6}
+.wa-tutorial h3{font-size:24px;line-height:1.25;margin:16px 0}
+.wa-tutorial ol{padding-left:22px;line-height:1.7;color:#eee}
+
+.wa-embed-panel{background:#120027;color:#fff;border:2px solid #4b12a6}
+.wa-embed-frame{width:100%;height:720px;overflow:hidden;border:3px solid #090611;border-radius:16px;background:#fff;margin-top:14px;box-shadow:0 5px 0 #090611}
+.wa-embed-frame iframe{display:block;width:100%;height:100%;border:0;background:#fff}
+@media(max-width:430px){.wa-embed-frame{height:680px}}
+
+/* Fake Dana-inspired demo layout based on the user's 9:16 reference */
+.saldo-tool-card{background:#fffdf0;border:4px solid #090611;border-radius:18px;padding:14px 12px;box-shadow:5px 6px 0 #090611;margin:14px 0}
+.saldo-chip{display:inline-block;background:var(--purple);color:#fff;border:3px solid #090611;border-radius:99px;padding:7px 11px;font-size:10px;font-weight:1000;box-shadow:2px 2px 0 #090611}
+.saldo-title-row{display:flex;align-items:center;gap:9px;margin:12px 0 3px}
+.saldo-wallet-icon{display:grid;place-items:center;background:var(--purple);color:#fff;border:3px solid #090611;border-radius:10px;width:38px;height:34px;font-size:18px;box-shadow:2px 2px 0 #090611}
+.saldo-title{font-size:23px;font-weight:1000;font-style:italic;letter-spacing:-1px;color:#17002c;text-shadow:1px 1px #e5baff}
+.saldo-tool-card .field-label{margin:12px 0 6px}.saldo-tool-card input{padding:11px 12px;border-radius:10px}
+.saldo-action-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.saldo-action-row button{background:var(--purple);color:#fff;padding:12px 4px;font-size:12px;border-radius:12px;box-shadow:0 3px 0 #090611}
+.saldo-result-label{display:inline-block;margin-top:15px;background:#090611;color:#fff;padding:5px 9px;font-size:11px;font-weight:1000;border:2px solid #090611}
+.saldo-result-box{margin-top:8px;background:var(--purple);border:3px solid #090611;border-radius:12px;padding:8px;box-shadow:0 4px 0 #090611}
+.wallet-mockup{width:min(100%,320px);aspect-ratio:9/16;margin:0 auto;background:#f8fbff;border:2px solid #151225;border-radius:8px;overflow:hidden;position:relative;color:#1a2335;display:flex;flex-direction:column;font-family:Arial,sans-serif}
+.wallet-statusbar{height:5%;min-height:17px;background:#087bc5;color:#fff;display:flex;justify-content:space-between;padding:4px 7px;font-size:8px;font-weight:900}
+.wallet-appbar{height:10%;background:#087bc5;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:8px 10px}
+.wallet-appbar strong{font-size:19px;letter-spacing:-1px}.wallet-appbar strong span{color:#baf1ff}
+.wallet-demo-badge{font-size:9px;background:#fff;color:#0751a5;border-radius:5px;padding:4px 5px;font-weight:1000}
+.wallet-balance-card{background:linear-gradient(135deg,#0788d4,#0755ad);color:#fff;margin:0;padding:11px 10px 12px}
+.wallet-balance-label{font-size:9px;opacity:.95}.wallet-balance-value{font-size:clamp(16px,5vw,24px);font-weight:1000;margin:6px 0 12px;overflow-wrap:anywhere}
+.wallet-action-icons{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center}.wallet-action-icons span{font-size:16px;font-weight:900}.wallet-action-icons small{display:block;font-size:7px;font-weight:700;margin-top:3px}
+.wallet-shortcuts{display:grid;grid-template-columns:repeat(4,1fr);gap:13px 3px;padding:14px 7px;background:#fff;text-align:center;flex:1;align-content:start}
+.wallet-shortcuts div{font-size:16px;color:#087bc5}.wallet-shortcuts small{display:block;color:#26354a;font-size:7px;margin-top:4px;font-weight:700}
+.wallet-activity{background:#fff;border-top:1px solid #e5e9f1;padding:9px 9px 18px;font-size:9px}.wallet-activity strong{display:block;margin-bottom:7px}.wallet-activity div{padding:5px 0;color:#526176;font-size:8px;border-bottom:1px solid #edf0f4}.wallet-activity span{float:right}
+.wallet-watermark{position:absolute;bottom:0;left:0;right:0;background:#fff0;color:#c21a52;text-align:center;font-size:8px;font-weight:1000;letter-spacing:1px;padding:6px 2px;text-shadow:0 1px #fff}
+.saldo-save-btn{width:100%;background:#fff;color:#17002c;padding:10px;border-radius:11px;margin-top:12px;font-size:11px}
+.saldo-disclaimer{font-size:10px;line-height:1.45;color:#66566e;font-weight:700;margin:12px 0 2px}
+
+</style>
+</head>
+<body>
+<section id="awal">
+  <div class="splash-card">
+    <div class="pill">✦ TOM PROJECT PRESENTS ✦</div>
+    <div class="splash-logo">🛠️</div>
+    <h1>TOM PROJECT<br><span class="purple-text">TOOLS</span></h1>
+    <p class="lead">WELCOME, BRO!<br>Kumpulan tools dalam satu aplikasi.</p>
+    <button class="big-btn" onclick="mulaiIntro()">START ✦</button>
+    <button class="pink-btn" onclick="masukAplikasi()">MASUK LANGSUNG ↗</button>
+  </div>
+</section>
+
+<section id="intro">
+  <video id="videoIntro" playsinline preload="auto"><source src="https://files.catbox.moe/6n5eab.mp4" type="video/mp4"></video>
+  <button id="skip" onclick="lewatiIntro()">SKIP ⏭</button>
+</section>
+<audio id="backgroundMusic" src="https://files.catbox.moe/xtcg71.mp4" preload="auto" loop></audio>
+
+<section id="menu" class="page">
+  <div class="topline"><div class="brand">TOM PROJECT <small>TOOLS • TOOLKIT</small></div><div class="avatar">🛠️</div></div>
+  <div class="hero">
+    <span class="pill">WELCOME BACK, BRO!</span>
+    <h2>Semua tools.<br><span class="purple-text">Satu tempat.</span></h2>
+    <p>Pilih tools favorit lu dan mulai langsung dari dashboard.</p>
+    <button class="big-btn" onclick="bukaTools()">EXPLORE TOOLS ↗</button>
+  </div>
+  <div class="section-title"><h3>⚡ Quick access</h3><small>FITUR UTAMA</small></div>
+  <div class="grid">
+    <button class="tool" onclick="bukaHalaman('tiktok')"><span class="ico">♫</span><strong>TikTok Tools</strong><small>Buka tautan video</small><em>BUKA ↗</em></button>
+    <button class="tool" onclick="bukaHalaman('ff')"><span class="ico">🎮</span><strong>Fake FF</strong><small>Simulasi lokal</small><em>BUKA ↗</em></button>
+    <button class="tool" onclick="bukaHalaman('music')"><span class="ico">♫</span><strong>Music Player</strong><small>Putar lagu dari HP</small><em>BUKA ↗</em></button>
+    <button class="tool" onclick="bukaHalaman('chatip')"><span class="ico">💬</span><strong>Chat IP</strong><small>Generator chat simulasi</small><em>BUKA ↗</em></button>
+    <button class="tool" onclick="bukaHalaman('wareaction')"><span class="ico">💜</span><strong>WA Channel Reaction</strong><small>Reaction post channel</small><em>BUKA ↗</em></button>
+    <button class="tool" onclick="bukaTools()"><span class="ico">▦</span><strong>Semua Tools</strong><small>Lihat koleksi tools</small><em>LIHAT ↗</em></button>
+  </div>
+  <div class="notice">💜 TOM PROJECT TOOLS — dibuat buat mempermudah akses tools lu.</div>
+</section>
+
+<section id="tools" class="page">
+  <div class="header"><button class="back" onclick="kembaliMenu()">←</button><div><p class="eyebrow">TOOL COLLECTION</p><h2>Semua Tools</h2></div></div>
+  <div class="search"><input id="searchTools" type="search" placeholder="⌕  Cari tools..." oninput="filterTools()"></div>
+  <div class="grid" id="toolGrid">
+    <button class="tool" data-search="tiktok downloader video tautan" onclick="bukaHalaman('tiktok')"><span class="ico">♫</span><strong>TikTok Tools</strong><small>Buka tautan TikTok</small><em>BUKA ↗</em></button>
+    <button class="tool" data-search="fake ff free fire game simulasi" onclick="bukaHalaman('ff')"><span class="ico">🎮</span><strong>Fake FF</strong><small>Demo tampilan simulasi</small><em>BUKA ↗</em></button>
+    <button class="tool" data-search="simulasi saldo dompet digital dana mockup nominal" onclick="bukaHalaman('saldosim')"><span class="ico">💳</span><strong>Simulasi Saldo</strong><small>Mockup dompet lokal</small><em>BUKA ↗</em></button>
+    <button class="tool" data-search="music player lagu audio musik" onclick="bukaHalaman('music')"><span class="ico">♫</span><strong>Music Player</strong><small>Putar lagu dari HP</small><em>BUKA ↗</em></button>
+    <button class="tool" data-search="chat ip fake chat whatsapp generator pesan simulasi" onclick="bukaHalaman('chatip')"><span class="ico">💬</span><strong>Chat IP</strong><small>Buat preview chat simulasi</small><em>BUKA ↗</em></button>
+    <button class="tool" data-search="image qr gambar" onclick="bukaHalaman('imagetools')"><span class="ico">▧</span><strong>Image Tools</strong><small>Edit & simpan gambar</small><em>BUKA ↗</em></button>
+    <button class="tool" data-search="ai kecerdasan buatan" onclick="bukaHalaman('aitools')"><span class="ico">✧</span><strong>AI Tools</strong><small>Buat prompt & ide</small><em>BUKA ↗</em></button>
+    <button class="tool" data-search="utility alat lainnya" onclick="bukaHalaman('utilitytools')"><span class="ico">⚙</span><strong>Utility Tools</strong><small>QR, teks & password</small><em>BUKA ↗</em></button>
+  </div>
+  <p id="searchStatus" class="status" aria-live="polite"></p>
+  <div class="notice">✨ Image Tools, AI Tools, dan Utility Tools sekarang tersedia. Sebagian fitur AI/QR memerlukan internet.</div>
+</section>
+
+<section id="tiktok" class="page">
+  <div class="header"><button class="back" onclick="bukaTools()">←</button><div><p class="eyebrow">VIDEO TOOL</p><h2>TikTok Tools</h2></div></div>
+  <div class="panel"><div style="font-size:38px;margin-bottom:12px">🎵</div><h3>Buka tautan TikTok</h3><p class="desc">Tempel tautan TikTok di bawah untuk membukanya di browser.</p>
+    <label class="field-label" for="linkTikTok">TAUTAN VIDEO</label><input id="linkTikTok" type="url" placeholder="https://www.tiktok.com/..." autocomplete="url">
+    <button class="purple-btn" onclick="bukaTikTok()">BUKA TIKTOK ↗</button><p id="statusTikTok" class="status" aria-live="polite"></p>
+    <div class="notice">Info: fitur ini membuka tautan saja, belum mengunduh video secara langsung.</div>
+  </div>
+</section>
+
+<section id="ff" class="page">
+  <div class="header"><button class="back" onclick="bukaTools()">←</button><div><p class="eyebrow">LOCAL DEMO</p><h2>Fake FF</h2></div></div>
+  <div class="panel" style="text-align:center"><div class="music-art">🎮</div><span class="pill">SIMULASI LOKAL</span><h3 style="margin-top:16px">Free Fire Demo</h3><p class="desc">Ini simulasi lokal, bukan game asli dan tidak mengubah akun atau permainan Free Fire.</p><button class="purple-btn" onclick="jalankanDemo()">JALANKAN SIMULASI ▶</button><p id="statusFF" class="status" aria-live="polite">Status: Siap dijalankan.</p></div>
+</section>
+
+<section id="saldosim" class="page">
+  <div class="header"><button class="back" onclick="bukaTools()">←</button><div><p class="eyebrow">WALLET PREVIEW</p><h2>DompetKu</h2></div></div>
+  <div class="saldo-tool-card">
+    <div class="saldo-chip">▰　TOM PROJECT</div>
+    <div class="saldo-title-row"><span class="saldo-wallet-icon">▰</span><div class="saldo-title">DOMPETKU</div></div>
+    <label class="field-label" for="saldoNominal">NOMINAL</label>
+    <input id="saldoNominal" type="number" min="0" max="999999999999" step="1" inputmode="numeric" placeholder="1000000" value="1000000">
+    <div class="saldo-action-row"><button onclick="jalankanSaldoDemo()">JALANKAN</button><button onclick="resetSaldoDemo()">RESET</button></div>
+    <div class="saldo-result-label">RESULT!</div>
+    <div id="saldoResult" class="saldo-result-box" style="display:none">
+      <div class="wallet-mockup" id="walletMockup">
+        <div class="wallet-statusbar"><span>12:38</span><span>● ▰ ▰</span></div>
+        <div class="wallet-appbar"><strong>dompet<span>ku</span></strong><span class="wallet-demo-badge">PREVIEW</span></div>
+        <div class="wallet-balance-card"><div class="wallet-balance-label">Saldo dompet</div><div class="wallet-balance-value" id="saldoResultValue">Rp 1.000.000</div><div class="wallet-action-icons"><span>＋<small>Isi Saldo</small></span><span>↗<small>Kirim</small></span><span>▦<small>Minta</small></span><span>⋯<small>Lainnya</small></span></div></div>
+        <div class="wallet-shortcuts"><div>⚡<small>Pulsa</small></div><div>▤<small>Tagihan</small></div><div>🛍<small>Belanja</small></div><div>🎮<small>Game</small></div><div>📱<small>Data</small></div><div>🎟<small>Voucher</small></div><div>💡<small>Listrik</small></div><div>▦<small>Lainnya</small></div></div>
+        <div class="wallet-activity"><strong>Aktivitas terbaru</strong><div>●　Contoh aktivitas <span>—</span></div><div>●　Tidak ada transaksi asli <span>—</span></div></div>
+        <div class="wallet-watermark">PREVIEW • BUKAN SALDO ASLI</div>
+      </div>
+    </div>
+    <button class="saldo-save-btn" onclick="simpanSaldoDemo()">SIMPAN NOMINAL</button>
+    <p id="saldoStatus" class="status" aria-live="polite">Masukkan nominal, lalu tekan JALANKAN.</p>
+    <p class="saldo-disclaimer">Mockup lokal untuk hiburan/desain. Bukan aplikasi DANA, bukan bukti pembayaran, dan tidak terhubung ke akun atau transaksi sungguhan.</p>
+  </div>
+</section>
+
+<section id="music" class="page">
+  <div class="header"><button class="back" onclick="tutupMusic()">←</button><div><p class="eyebrow">YOUR SOUND</p><h2>Music Player</h2></div></div>
+  <div class="panel">
+    <div class="music-art" id="musicArt">🎧</div><div class="song-name" id="songName">Belum ada lagu</div><div class="song-info" id="songInfo">Pilih file audio dari HP lu</div>
+    <label class="file-label" for="fileMusic">📂 PILIH LAGU DARI HP</label><input id="fileMusic" type="file" accept="audio/*"><audio id="audioMusic" preload="metadata"></audio>
+    <input id="seekBar" type="range" min="0" max="100" value="0" step="0.1" aria-label="Posisi lagu">
+    <div class="time-row"><span id="currentTime">00:00</span><span id="duration">00:00</span></div>
+    <div class="music-controls"><button onclick="mundurLagu()" title="Mundur 10 detik">↶ 10</button><button id="playBtn" onclick="togglePlay()">▶ PLAY</button><button onclick="majuLagu()" title="Maju 10 detik">10 ↷</button></div>
+    <div class="volume-row"><span>🔉</span><input id="volumeBar" type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volume"><span>🔊</span></div>
+    <p id="musicStatus" class="status" aria-live="polite">Status: Siap. Pilih lagu terlebih dahulu.</p>
+  </div>
+</section>
+
+<section id="chatip" class="page">
+  <div class="header"><button class="back" onclick="bukaTools()">←</button><div><p class="eyebrow">CHAT CREATOR</p><h2>Chat IP</h2></div></div>
+  <div class="panel">
+    <span class="pill">💬 CHAT CREATOR</span>
+    <h3 style="margin-top:15px">Bikin tampilan chat</h3>
+    <p class="desc">Isi nama dan pesan, lalu tekan JALANKAN untuk melihat hasil desain chat.</p>
+    <label class="field-label" for="chatName">NAMA KONTAK</label>
+    <input id="chatName" type="text" maxlength="40" value="Teman" placeholder="Nama kontak">
+    <label class="field-label" for="chatMessage">ISI PESAN</label>
+    <input id="chatMessage" type="text" maxlength="240" value="haha" placeholder="Tulis pesan...">
+    <div class="grid" style="margin-top:14px">
+      <button class="purple-btn" style="margin:0" onclick="jalankanChat()">JALANKAN</button>
+      <button class="pink-btn" style="margin:0" onclick="resetChat()">RESET</button>
+    </div>
+  </div>
+  <div class="panel" style="background:#9700f5;color:#fff">
+    <span class="pill" style="background:#111;color:#fff;border-color:#000;box-shadow:3px 3px 0 #000">RESULT!</span>
+    <div id="chatPreview" style="max-width:390px;margin:17px auto 0;border:4px solid #08070b;border-radius:25px;overflow:hidden;background:#101b22;box-shadow:5px 5px 0 #000">
+      <div style="background:#18262d;padding:13px 12px;display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;border-radius:50%;background:#b9d7c8;color:#173d32;display:grid;place-items:center;font-size:20px">●</div>
+        <div style="flex:1;min-width:0"><strong id="previewName" style="display:block;font-size:14px">Teman</strong><small style="color:#b8c6cb;font-size:10px">online</small></div>
+        <span>☎　⋮</span>
+      </div>
+      <div style="padding:15px 11px;min-height:290px;background:radial-gradient(ellipse at top,#213b42,#101a20 70%);position:relative">
+        <div style="text-align:center;font-size:9px;color:#c0d0d0;margin-bottom:14px">HARI INI</div>
+        <div style="display:flex;justify-content:flex-end"><div style="max-width:90%;background:#005c4b;color:#fff;padding:10px 11px;border-radius:12px 3px 12px 12px;font-size:13px;line-height:1.4">Halo bro 👋<div style="text-align:right;color:#b8dcd2;font-size:9px;margin-top:5px">19:02　✓✓</div></div></div>
+        <div style="position:relative;margin-top:14px;max-width:92%">
+          <div style="position:absolute;left:0;bottom:calc(100% + 9px);display:flex;align-items:center;gap:8px;white-space:nowrap;background:#303236;border:1px solid #424448;border-radius:28px;padding:7px 12px;box-shadow:0 5px 18px #0008;z-index:2;font-size:25px;line-height:1.2">
+            <span>👍</span><span>❤️</span><span>😂</span><span>😮</span><span>😢</span><span>🙏</span>
+          </div>
+          <div style="background:#202c33;color:#fff;padding:10px 11px;border-radius:3px 12px 12px 12px;font-size:13px;line-height:1.4;overflow-wrap:anywhere" id="previewMessage">haha<div style="text-align:right;color:#b6c5ca;font-size:9px;margin-top:5px">19:03</div></div>
+        </div>
+        <div style="position:absolute;left:12px;right:12px;bottom:12px;background:#202c33;border-radius:18px;padding:10px;color:#9eafb4;font-size:11px">＋　 Pesan　　☺　 📎　🎙</div>
+        <div style="position:absolute;left:12px;right:12px;top:145px;background:linear-gradient(145deg,#343638ee,#242628f2);border:1px solid #55585b;border-radius:14px;padding:4px 10px;color:#f2f2f2;font-size:12px;box-shadow:0 5px 18px #0009;z-index:1">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 2px;border-bottom:1px solid #ffffff20"><span>Beri Bintang</span><span style="font-size:17px;color:#d9e0e2">☆</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 2px;border-bottom:1px solid #ffffff20"><span>Balas</span><span style="font-size:17px">↶</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 2px;border-bottom:1px solid #ffffff20"><span>Teruskan</span><span style="font-size:17px">➦</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 2px;border-bottom:1px solid #ffffff20"><span>Salin</span><span style="font-size:17px">▢</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 2px;border-bottom:1px solid #ffffff20"><span>Ucapkan</span><span style="font-size:17px">▱</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 2px"><span>Laporkan</span><span style="font-size:17px">⚠</span></div>
+        </div>
+ 
+      </div>
+    </div>
+    <button class="purple-btn" id="downloadChatBtn" style="width:100%;margin-top:14px;background:#111;border:2px solid #fff;box-shadow:4px 4px 0 #000" onclick="downloadChatImage()">📲 SIMPAN / BAGIKAN KE GALERI</button>
+    <p id="downloadChatStatus" class="desc" style="color:#fff;margin-bottom:0">Simpan hasil desain chat sebagai gambar ke perangkat lu.</p>
+  </div>
+</section>
+
+
+
+<section id="wareaction" class="page">
+  <div class="header"><button class="back" onclick="bukaTools()">←</button><div><p class="eyebrow">WHATSAPP CHANNEL</p><h2>WA Reaction</h2></div></div>
+
+  <div class="panel wa-react-panel">
+    <span class="wa-kicker">⚡ FRONTEND READY</span>
+    <h3 style="margin-top:15px;color:#19f7ff">WhatsApp Channel Post URL</h3>
+    <p class="desc">Tempel <b>URL postingan</b> channel WhatsApp, bukan URL halaman channel.</p>
+    <input id="waPostUrl" type="url" inputmode="url" autocomplete="off"
+           placeholder="https://whatsapp.com/channel/..."
+           aria-label="WhatsApp Channel Post URL">
+
+    <label class="field-label wa-label" for="waReactions">REACTIONS (MAX 5)</label>
+    <input id="waReactions" type="text" maxlength="39" autocomplete="off"
+           placeholder="😂, ❤️, 🔥, 😮, 👍"
+           oninput="updateWAReactionCount()">
+    <div class="wa-help">Pisahkan emoji dengan koma. <b id="waReactionCount">0/5</b></div>
+
+    <div class="wa-emoji-row" aria-label="Pilih emoji">
+      <button type="button" onclick="addWAEmoji('😂')">😂</button>
+      <button type="button" onclick="addWAEmoji('❤️')">❤️</button>
+      <button type="button" onclick="addWAEmoji('🔥')">🔥</button>
+      <button type="button" onclick="addWAEmoji('😮')">😮</button>
+      <button type="button" onclick="addWAEmoji('👍')">👍</button>
+      <button type="button" onclick="addWAEmoji('🥰')">🥰</button>
+      <button type="button" onclick="addWAEmoji('😎')">😎</button>
+      <button type="button" onclick="addWAEmoji('🙏')">🙏</button>
+    </div>
+
+    <div class="wa-captcha" role="note">
+      <div class="wa-check">✓</div>
+      <div><strong>Verifikasi</strong><small>Gunakan CAPTCHA resmi di backend sebelum request dikirim.</small></div>
+      <span class="wa-captcha-mark">reCAPTCHA</span>
+    </div>
+
+    <button class="wa-send-btn" type="button" onclick="sendWAReaction()">SEND REACTION</button>
+    <p id="waReactionStatus" class="status" aria-live="polite">Status: Siap. Isi URL post dan pilih reaction.</p>
+  </div>
+
+
+  <div class="panel wa-embed-panel">
+    <span class="wa-kicker">⚡ AUTO REACTION</span>
+    <h3 style="margin-top:15px">Auto Reaction WhatsApp</h3>
+    <p class="desc">Fitur asli Auto Reaction ditampilkan di bawah. Kalau browser/server memblokir iframe, gunakan tombol BUKA DI BROWSER.</p>
+    <div class="wa-embed-frame">
+      <iframe
+        src="https://auto-reaction.zxcoderid.web.id/"
+        title="Auto Reaction WhatsApp"
+        loading="lazy"
+        allow="clipboard-read; clipboard-write"
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <button class="purple-btn" type="button" onclick="window.open('https://auto-reaction.zxcoderid.web.id/','_blank','noopener')">
+      BUKA DI BROWSER ↗
+    </button>
+  </div>
+
+  <div class="panel wa-tutorial">
+    <span class="wa-kicker">TUTORIAL URL POST</span>
+    <h3>Salin URL <u>pesan channel</u>, bukan URL channel.</h3>
+    <ol>
+      <li>Buka postingan di WhatsApp Channel.</li>
+      <li>Pilih <b>Salin tautan</b> pada postingan tersebut.</li>
+      <li>Tempel URL ke kolom di atas.</li>
+      <li>Pilih sampai 5 emoji, lalu kirim lewat backend resmi/terotorisasi.</li>
+    </ol>
+    <p class="desc">Catatan: file HTML ini menyiapkan UI dan validasi frontend. Pengiriman reaction yang benar-benar ke WhatsApp membutuhkan backend/API yang sah; tombol tidak berpura-pura berhasil kalau backend belum terhubung.</p>
+  </div>
+</section>
+
+<section id="imagetools" class="page">
+  <div class="header"><button class="back" onclick="bukaTools()">←</button><div><p class="eyebrow">IMAGE STUDIO</p><h2>Image Tools</h2></div></div>
+  <div class="panel"><h3>🖼️ Kompres & ubah ukuran gambar</h3><p class="desc">Pilih foto dari perangkat, atur ukuran dan kualitas, lalu simpan hasilnya sebagai JPG atau PNG.</p>
+    <label class="file-label" for="imageInput">📂 PILIH FOTO DARI HP</label><input id="imageInput" type="file" accept="image/*" style="display:block;border:0;box-shadow:none;padding:8px 0">
+    <div id="imageMeta" class="status" style="margin-top:8px"></div><img id="imagePreview" alt="Pratinjau foto" style="display:none;width:100%;max-height:320px;object-fit:contain;margin-top:12px;border:2px solid #111;border-radius:14px;background:#eee">
+    <label class="field-label" for="imageWidth">LEBAR HASIL (PX)</label><input id="imageWidth" type="number" min="1" max="6000" value="1080">
+    <label class="field-label" for="imageFormat">FORMAT</label><select id="imageFormat" style="width:100%;padding:13px;border:3px solid #090611;border-radius:13px;font:inherit;font-weight:700"><option value="image/jpeg">JPG (lebih kecil)</option><option value="image/png">PNG</option></select>
+    <label class="field-label" for="imageQuality">KUALITAS JPG</label><input id="imageQuality" type="range" min="30" max="100" value="85" style="box-shadow:none;padding:0">
+    <button class="purple-btn" onclick="processImage()">PROSES & SIMPAN GAMBAR ↓</button><p id="imageStatus" class="status" aria-live="polite"></p>
+  </div>
+</section>
+<section id="aitools" class="page">
+  <div class="header"><button class="back" onclick="bukaTools()">←</button><div><p class="eyebrow">AI ASSISTANT</p><h2>AI Tools</h2></div></div>
+  <div class="panel"><h3>✨ Pembuat prompt AI</h3><p class="desc">Tulis kebutuhan lu. Tool ini menyusun prompt yang bisa disalin atau dibuka di ChatGPT. Jawaban AI memerlukan koneksi internet.</p>
+    <label class="field-label" for="aiTask">MAU BIKIN APA?</label><select id="aiTask" style="width:100%;padding:13px;border:3px solid #090611;border-radius:13px;font:inherit;font-weight:700"><option value="caption media sosial yang menarik">Caption media sosial</option><option value="bio profil yang keren dan singkat">Bio profil</option><option value="ide konten video pendek yang kreatif">Ide konten video</option><option value="pesan chat yang sopan dan natural">Pesan chat</option><option value="penjelasan materi dengan bahasa sederhana">Penjelasan materi</option><option value="kode HTML CSS JavaScript yang rapi dan berfungsi">Bantuan coding</option></select>
+    <label class="field-label" for="aiDetails">DETAIL / TOPIK</label><textarea id="aiDetails" rows="4" maxlength="1200" placeholder="Contoh: caption FF yang singkat, lucu, bahasa gaul..." style="width:100%;padding:13px;border:3px solid #090611;border-radius:13px;font:inherit;resize:vertical"></textarea>
+    <button class="purple-btn" onclick="buildAIPrompt()">BUAT PROMPT ✨</button><label class="field-label" for="aiOutput">PROMPT SIAP PAKAI</label><textarea id="aiOutput" rows="5" readonly placeholder="Prompt lu akan muncul di sini..." style="width:100%;padding:13px;border:3px solid #090611;border-radius:13px;font:inherit;resize:vertical"></textarea>
+    <button class="purple-btn" onclick="copyAIPrompt()">SALIN PROMPT</button><button class="pink-btn" onclick="openAIChat()">BUKA CHATGPT ↗</button><p id="aiStatus" class="status" aria-live="polite"></p>
+  </div>
+</section>
+<section id="utilitytools" class="page">
+  <div class="header"><button class="back" onclick="bukaTools()">←</button><div><p class="eyebrow">UTILITY KIT</p><h2>Utility Tools</h2></div></div>
+  <div class="panel"><h3>🔤 Pengubah teks</h3><p class="desc">Ubah huruf besar/kecil dan salin hasilnya.</p><textarea id="utilText" rows="3" placeholder="Tulis atau tempel teks di sini..." style="width:100%;padding:13px;border:3px solid #090611;border-radius:13px;font:inherit;resize:vertical"></textarea><div class="grid" style="margin-top:10px"><button class="purple-btn" style="margin:0" onclick="convertText('upper')">HURUF BESAR</button><button class="purple-btn" style="margin:0" onclick="convertText('lower')">huruf kecil</button><button class="purple-btn" style="margin:0" onclick="convertText('title')">Title Case</button><button class="pink-btn" style="margin:0" onclick="copyUtilityText()">SALIN TEKS</button></div><p id="utilTextStatus" class="status"></p></div>
+  <div class="panel"><h3>🔐 Pembuat password</h3><label class="field-label" for="passLength">PANJANG PASSWORD</label><input id="passLength" type="number" min="8" max="64" value="16"><button class="purple-btn" onclick="generatePassword()">BUAT PASSWORD</button><input id="passOutput" readonly placeholder="Password akan muncul di sini" style="margin-top:12px"><button class="pink-btn" onclick="copyPassword()">SALIN PASSWORD</button><p id="passStatus" class="status"></p></div>
+  <div class="panel"><h3>▦ Pembuat QR Code</h3><p class="desc">Masukkan teks atau tautan. Pembuatan QR menggunakan layanan online, jadi perlu internet.</p><input id="qrText" type="text" maxlength="1500" placeholder="https://contoh.com atau teks"><button class="purple-btn" onclick="makeQR()">BUAT QR CODE</button><div id="qrResult" style="text-align:center;margin-top:12px"></div><p id="qrStatus" class="status"></p></div>
+  <div class="panel"><h3>🧮 Kalkulator sederhana</h3><div class="grid"><input id="calcA" type="number" placeholder="Angka pertama"><input id="calcB" type="number" placeholder="Angka kedua"></div><div class="grid" style="margin-top:10px"><button class="purple-btn" style="margin:0" onclick="calculate('+')">＋ Tambah</button><button class="purple-btn" style="margin:0" onclick="calculate('-')">− Kurang</button><button class="purple-btn" style="margin:0" onclick="calculate('*')">× Kali</button><button class="purple-btn" style="margin:0" onclick="calculate('/')">÷ Bagi</button></div><p id="calcResult" class="status" style="margin-top:12px" aria-live="polite">Hasil akan muncul di sini.</p></div>
+</section>
+
+<section id="premium" class="page">
+  <div class="header"><button class="back" onclick="kembaliMenu()">←</button><div><p class="eyebrow">MEMBER AREA</p><h2>Aktivasi Premium</h2></div></div>
+  <div class="panel" style="text-align:center"><div class="music-art">👑</div><span class="pill">PREMIUM UI DEMO</span><h3 style="margin-top:15px">Aktivasi Premium</h3><p class="desc">Ini baru tampilan demo. Verifikasi email dan status premium sungguhan memerlukan backend atau layanan autentikasi.</p><label class="field-label" for="premiumEmail" style="text-align:left">EMAIL</label><input id="premiumEmail" type="email" placeholder="email@kamu.com"><button class="purple-btn" onclick="aktivasiDemo()">KIRIM LINK DEMO</button><p id="premiumStatus" class="status" aria-live="polite"></p></div>
+</section>
+
+<section id="admin" class="page">
+  <div class="header"><button class="back" onclick="kembaliMenu()">←</button><div><p class="eyebrow">ADMIN • SOCIAL LINKS</p><h2>Admin</h2></div></div>
+  <div class="hero" style="margin-top:12px"><span class="pill">🔗 LINK RESMI GUA</span><h2>Channel & akun<br><span class="purple-text">Admin</span></h2><p>Kumpulan channel WhatsApp dan akun media sosial lu ada di sini, terpisah dari menu Tools.</p></div>
+  <div class="section-title"><h3>📣 Channel & Sosial Media</h3><small>ADMIN LINKS</small></div>
+  <div class="grid">
+    <button class="tool" onclick="bukaSLWA()"><span class="ico">🟢</span><strong>Channel WhatsApp</strong><small>SL WA • Saluran resmi</small><em>BUKA ↗</em></button>
+    <button class="tool" onclick="bukaLinkAdmin('https://www.tiktok.com/@miiiii0470')"><span class="ico">🎵</span><strong>Akun TikTok</strong><small>Buka profil TikTok</small><em>BUKA ↗</em></button>
+    <button class="tool" onclick="bukaLinkAdmin('https://www.instagram.com/sardenbac?xtok=NHU2N2swaHlpNWo3')"><span class="ico">📸</span><strong>Akun Instagram</strong><small>Buka profil Instagram</small><em>BUKA ↗</em></button>
+  </div>
+  <div class="notice">💡 Tekan tombol untuk membuka profil media sosial Admin.</div>
+</section>
+
+<nav class="bottom-nav" id="bottomNav">
+  <button class="nav-btn active" data-page="menu" onclick="kembaliMenu()"><span>⌂</span>HOME</button>
+  <button class="nav-btn" data-page="premium" onclick="bukaHalaman('premium')"><span>♛</span>PREMIUM</button>
+  <button class="nav-btn" data-page="tools" onclick="bukaTools()"><span>▦</span>TOOLS</button>
+  <button class="nav-btn" data-page="admin" onclick="bukaHalaman('admin')"><span>♙</span>ADMIN</button>
+</nav>
+
+<script>
+const videoIntro=document.getElementById('videoIntro'),bottomNav=document.getElementById('bottomNav');
+const audio=document.getElementById('audioMusic'),fileMusic=document.getElementById('fileMusic');
+const songName=document.getElementById('songName'),songInfo=document.getElementById('songInfo');
+const playBtn=document.getElementById('playBtn'),seekBar=document.getElementById('seekBar');
+const currentTime=document.getElementById('currentTime'),duration=document.getElementById('duration');
+const musicStatus=document.getElementById('musicStatus'),volumeBar=document.getElementById('volumeBar');
+let musicURL=null;
+function sembunyikan(){document.querySelectorAll('.page').forEach(p=>p.style.display='none');}
+function updateNav(id){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===id));}
+function tampilkan(id){sembunyikan();document.getElementById(id).style.display='block';bottomNav.style.display='grid';updateNav(['tiktok','ff','saldosim','music','chatip','wareaction','imagetools','aitools','utilitytools'].includes(id)?'tools':id);window.scrollTo({top:0,behavior:'smooth'});}
+const backgroundMusic=document.getElementById('backgroundMusic');
+backgroundMusic.volume=0.55;
+backgroundMusic.addEventListener('error',()=>{
+  console.warn('Tom Project Tools: background music failed to load. Check the Catbox link or audio codec.');
+});
+function mulaiMusikLatar(){
+  // Called after a user gesture (SKIP / direct entry) or when the intro ends.
+  const p=backgroundMusic.play();
+  if(p&&p.catch)p.catch(()=>{
+    // Some browsers block playback or the supplied MP4 may use an unsupported audio codec.
+    console.warn('Background music could not autoplay. The browser may block playback or the MP4 codec may be unsupported.');
+  });
+}
+function masukAplikasi(){
+  document.getElementById('awal').style.display='none';
+  tampilkan('menu');
+  mulaiMusikLatar();
+}
+function mulaiIntro(){
+  document.getElementById('awal').style.display='none';
+  document.getElementById('intro').style.display='block';
+  videoIntro.currentTime=0;
+  const p=videoIntro.play();
+  if(p&&p.catch)p.catch(()=>document.getElementById('skip').textContent='SKIP ⏭');
+}
+function lewatiIntro(){
+  videoIntro.pause();
+  document.getElementById('intro').style.display='none';
+  document.getElementById('awal').style.display='none';
+  tampilkan('menu');
+  mulaiMusikLatar();
+}
+videoIntro.addEventListener('ended',lewatiIntro);
+function bukaTools(){tampilkan('tools');}
+function kembaliMenu(){tampilkan('menu');}
+function bukaHalaman(id){tampilkan(id);}
+function bukaSLWA(){window.location.assign('https://www.whatsapp.com/channel/0029VbEc7ia1t90hi5JFoj2W');}
+function bukaLinkAdmin(url){
+ try{const u=new URL(url);if(u.protocol!=='https:')return;window.location.assign(u.href);}
+ catch(e){console.warn('Tautan akun tidak valid.',e);}
+}
+function bukaTikTok(){
+ const input=document.getElementById('linkTikTok'),status=document.getElementById('statusTikTok');
+ try{const u=new URL(input.value.trim()),h=u.hostname.toLowerCase();if(u.protocol!=='https:'||!(h==='tiktok.com'||h.endsWith('.tiktok.com'))){status.textContent='Masukkan tautan HTTPS TikTok yang valid.';return;}
+ status.textContent='Membuka tautan TikTok...';const tab=window.open(u.href,'_blank');if(!tab)status.textContent='Tab baru mungkin diblokir. Coba buka halaman ini lewat browser.';
+ }catch(e){status.textContent='Tautan belum valid, bro.';}
+}
+function jalankanDemo(){document.getElementById('statusFF').textContent='Status: Simulasi berhasil dijalankan ✓';}
+
+function formatRupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n);}
+function jalankanSaldoDemo(){
+ const input=document.getElementById('saldoNominal'),status=document.getElementById('saldoStatus');
+ const n=Number(input.value);
+ if(input.value.trim()===''||!Number.isFinite(n)||n<0||!Number.isSafeInteger(n)||n>999999999999){status.textContent='Masukkan nominal rupiah bilangan bulat dari 0 sampai 999.999.999.999.';return;}
+ document.getElementById('saldoResultValue').textContent=formatRupiah(n);
+ document.getElementById('saldoResult').style.display='block';
+ status.textContent='Preview simulasi berhasil dibuat ✓ (lokal saja).';
+}
+function simpanSaldoDemo(){
+ const input=document.getElementById('saldoNominal'),status=document.getElementById('saldoStatus');
+ const n=Number(input.value);
+ if(input.value.trim()===''||!Number.isSafeInteger(n)||n<0||n>999999999999){status.textContent='Nominal belum valid. Periksa input lalu coba lagi.';return;}
+ try{localStorage.setItem('tomProjectSaldoDemoNominal',String(n));status.textContent='Nominal demo disimpan di penyimpanan browser perangkat ini ✓';}
+ catch(e){status.textContent='Browser tidak mengizinkan penyimpanan. Nominal tetap bisa dipakai untuk preview.';}
+}
+function resetSaldoDemo(){
+ document.getElementById('saldoNominal').value='';document.getElementById('saldoResult').style.display='none';
+ document.getElementById('saldoStatus').textContent='Form dan hasil demo direset.';
+}
+try{const savedSaldo=localStorage.getItem('tomProjectSaldoDemoNominal');if(savedSaldo!==null)document.getElementById('saldoNominal').value=savedSaldo;}catch(e){}
+
+function jalankanChat(){
+ const name=document.getElementById('chatName').value.trim()||'Teman';
+ const message=document.getElementById('chatMessage').value.trim();
+ document.getElementById('previewName').textContent=name;
+ const msg=document.getElementById('previewMessage');
+ msg.textContent=message||'(pesan kosong)';
+ const time=document.createElement('div');
+ time.style.cssText='text-align:right;color:#b6c5ca;font-size:9px;margin-top:5px';
+ time.textContent='19:03';
+ msg.appendChild(time);
+}
+function resetChat(){
+ document.getElementById('chatName').value='Teman';
+ document.getElementById('chatMessage').value='haha';
+ jalankanChat();
+}
+function fiturSegera(nama){alert(nama+' masih berupa menu contoh, bro. Fungsinya belum aktif.');}
+let selectedImage=null, selectedImageURL=null;
+document.getElementById('imageInput').addEventListener('change',()=>{const f=document.getElementById('imageInput').files[0];if(!f)return;if(!f.type.startsWith('image/')){document.getElementById('imageStatus').textContent='Pilih file gambar yang valid.';return;}selectedImage=f;if(selectedImageURL)URL.revokeObjectURL(selectedImageURL);selectedImageURL=URL.createObjectURL(f);const img=document.getElementById('imagePreview');img.src=selectedImageURL;img.style.display='block';img.onload=()=>{document.getElementById('imageWidth').value=img.naturalWidth;document.getElementById('imageMeta').textContent=`${img.naturalWidth} × ${img.naturalHeight} px • ${(f.size/1024).toFixed(1)} KB`;document.getElementById('imageStatus').textContent='Foto siap diproses.';};});
+function processImage(){const status=document.getElementById('imageStatus');if(!selectedImage){status.textContent='Pilih foto dulu, bro.';return;}const img=document.getElementById('imagePreview'),width=Number(document.getElementById('imageWidth').value),format=document.getElementById('imageFormat').value,quality=Number(document.getElementById('imageQuality').value)/100;if(!Number.isFinite(width)||width<1||width>6000){status.textContent='Lebar harus 1–6000 px.';return;}const height=Math.max(1,Math.round(width*img.naturalHeight/img.naturalWidth));const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;const ctx=canvas.getContext('2d');if(format==='image/jpeg'){ctx.fillStyle='#fff';ctx.fillRect(0,0,width,height);}ctx.drawImage(img,0,0,width,height);canvas.toBlob(blob=>{if(!blob){status.textContent='Gambar gagal diproses.';return;}const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='tom-project-image.'+(format==='image/png'?'png':'jpg');document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);status.textContent=`Berhasil dibuat: ${width} × ${height} px • ${(blob.size/1024).toFixed(1)} KB. Cek folder Download, bro.`;},format,quality);}
+function buildAIPrompt(){const task=document.getElementById('aiTask').value,details=document.getElementById('aiDetails').value.trim();if(!details){document.getElementById('aiStatus').textContent='Isi detail atau topik dulu, bro.';return;}document.getElementById('aiOutput').value=`Bertindaklah sebagai asisten yang membantu membuat ${task}. Gunakan bahasa Indonesia yang natural, jelas, dan sesuai konteks.\n\nDetail dari saya: ${details}\n\nBerikan hasil yang langsung bisa digunakan. Jika informasi kurang, tanyakan seperlunya dan jangan mengarang fakta.`;document.getElementById('aiStatus').textContent='Prompt berhasil dibuat. Salin atau buka ChatGPT untuk mendapatkan jawaban AI.';}
+async function copyAIPrompt(){const out=document.getElementById('aiOutput'),status=document.getElementById('aiStatus');if(!out.value){buildAIPrompt();if(!out.value)return;}try{await navigator.clipboard.writeText(out.value);status.textContent='Prompt berhasil disalin.';}catch(e){out.focus();out.select();status.textContent='Prompt dipilih. Tekan Salin/Copy dari menu perangkat.';}}
+function openAIChat(){const out=document.getElementById('aiOutput');if(!out.value)buildAIPrompt();if(!out.value)return;window.open('https://chatgpt.com/?q='+encodeURIComponent(out.value),'_blank','noopener');document.getElementById('aiStatus').textContent='ChatGPT dibuka. Jika prompt tidak otomatis masuk, salin prompt lalu tempel di chat.';}
+function convertText(mode){const el=document.getElementById('utilText');let s=el.value;if(mode==='upper')s=s.toLocaleUpperCase('id-ID');else if(mode==='lower')s=s.toLocaleLowerCase('id-ID');else s=s.toLocaleLowerCase('id-ID').replace(/(^|[.!?]\s+)(\p{L})/gu,(m,a,b)=>a+b.toLocaleUpperCase('id-ID'));el.value=s;document.getElementById('utilTextStatus').textContent='Teks berhasil diubah.';}
+async function copyUtilityText(){const el=document.getElementById('utilText'),status=document.getElementById('utilTextStatus');if(!el.value){status.textContent='Belum ada teks untuk disalin.';return;}try{await navigator.clipboard.writeText(el.value);status.textContent='Teks berhasil disalin.';}catch(e){el.focus();el.select();status.textContent='Teks dipilih. Gunakan menu Salin perangkat.';}}
+function generatePassword(){const len=Math.max(8,Math.min(64,Number(document.getElementById('passLength').value)||16)),chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*+-_';let out='';if(window.crypto&&crypto.getRandomValues){const arr=new Uint32Array(len);crypto.getRandomValues(arr);for(let i=0;i<len;i++)out+=chars[arr[i]%chars.length];}else{for(let i=0;i<len;i++)out+=chars[Math.floor(Math.random()*chars.length)];}document.getElementById('passOutput').value=out;document.getElementById('passStatus').textContent=`Password ${len} karakter berhasil dibuat. Simpan dengan aman.`;}
+async function copyPassword(){const el=document.getElementById('passOutput'),status=document.getElementById('passStatus');if(!el.value){generatePassword();}try{await navigator.clipboard.writeText(el.value);status.textContent='Password disalin. Jangan bagikan ke orang lain.';}catch(e){el.focus();el.select();status.textContent='Password dipilih. Gunakan menu Salin perangkat.';}}
+function makeQR(){const text=document.getElementById('qrText').value.trim(),result=document.getElementById('qrResult'),status=document.getElementById('qrStatus');result.innerHTML='';if(!text){status.textContent='Isi teks atau tautan dulu.';return;}const img=document.createElement('img');img.alt='QR Code';img.width=220;img.height=220;img.style.cssText='max-width:100%;border:8px solid white;border-radius:12px';img.src='https://api.qrserver.com/v1/create-qr-code/?size=400x400&data='+encodeURIComponent(text);img.onload=()=>{status.textContent='QR berhasil dibuat. Tekan lama gambar untuk menyimpan, atau buka gambar di tab baru.';const a=document.createElement('a');a.href=img.src;a.target='_blank';a.rel='noopener';a.textContent='Buka / simpan gambar QR';a.style.cssText='display:block;margin-top:10px;font-weight:800;color:#7200c7';result.appendChild(a);};img.onerror=()=>{status.textContent='QR gagal dimuat. Periksa koneksi internet lalu coba lagi.';};result.appendChild(img);}
+function calculate(op){const a=Number(document.getElementById('calcA').value),b=Number(document.getElementById('calcB').value),out=document.getElementById('calcResult');if(document.getElementById('calcA').value===''||document.getElementById('calcB').value===''){out.textContent='Masukkan kedua angka dulu.';return;}if(op==='/'&&b===0){out.textContent='Tidak bisa membagi dengan nol.';return;}let r=op==='+'?a+b:op==='-'?a-b:op==='*'?a*b:a/b;out.textContent='Hasil: '+(Number.isFinite(r)?Number(r.toPrecision(12)):r);}
+function filterTools(){const q=document.getElementById('searchTools').value.trim().toLowerCase();let n=0;document.querySelectorAll('#toolGrid .tool').forEach(el=>{const show=el.dataset.search.includes(q);el.style.display=show?'flex':'none';if(show)n++;});document.getElementById('searchStatus').textContent=n?'':'Tools tidak ditemukan. Coba kata kunci lain.';}
+function aktivasiDemo(){const email=document.getElementById('premiumEmail'),status=document.getElementById('premiumStatus');if(!email.checkValidity()||!email.value.trim()){status.textContent='Masukkan alamat email yang valid, bro.';email.focus();return;}status.textContent='Ini hanya demo UI: email belum dikirim dan akun belum diaktifkan.';}
+function formatWaktu(s){if(!Number.isFinite(s))return'00:00';return String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');}
+fileMusic.addEventListener('change',()=>{const f=fileMusic.files[0];if(!f)return;if(musicURL)URL.revokeObjectURL(musicURL);audio.pause();musicURL=URL.createObjectURL(f);audio.src=musicURL;audio.load();songName.textContent=f.name;songInfo.textContent='File musik dari perangkat lu';document.getElementById('musicArt').textContent='🎵';playBtn.textContent='▶ PLAY';seekBar.value=0;currentTime.textContent='00:00';duration.textContent='00:00';musicStatus.textContent='Lagu dipilih. Tekan Play untuk memutar.';});
+async function togglePlay(){if(!audio.src){musicStatus.textContent='Pilih file lagu terlebih dahulu, bro.';return;}if(audio.paused){try{await audio.play();}catch(e){musicStatus.textContent='Lagu gagal diputar. Coba file audio lain.';}}else audio.pause();}
+audio.volume=.8;
+audio.addEventListener('play',()=>{playBtn.textContent='⏸ PAUSE';musicStatus.textContent='Status: Lagu sedang diputar 🎶';});
+audio.addEventListener('pause',()=>{playBtn.textContent='▶ PLAY';if(audio.currentTime>0&&!audio.ended)musicStatus.textContent='Status: Lagu dijeda.';});
+audio.addEventListener('loadedmetadata',()=>duration.textContent=formatWaktu(audio.duration));
+audio.addEventListener('timeupdate',()=>{currentTime.textContent=formatWaktu(audio.currentTime);if(Number.isFinite(audio.duration)&&audio.duration>0)seekBar.value=audio.currentTime/audio.duration*100;});
+seekBar.addEventListener('input',()=>{if(Number.isFinite(audio.duration)&&audio.duration>0)audio.currentTime=Number(seekBar.value)/100*audio.duration;});
+volumeBar.addEventListener('input',()=>audio.volume=Number(volumeBar.value));
+function mundurLagu(){if(audio.src)audio.currentTime=Math.max(0,audio.currentTime-10);}
+function majuLagu(){if(audio.src&&Number.isFinite(audio.duration))audio.currentTime=Math.min(audio.duration,audio.currentTime+10);}
+audio.addEventListener('ended',()=>{playBtn.textContent='▶ PLAY';musicStatus.textContent='Lagu selesai diputar.';seekBar.value=0;});
+audio.addEventListener('error',()=>{if(audio.src)musicStatus.textContent='File tidak dapat diputar. Coba MP3 atau file audio lain.';});
+function tutupMusic(){audio.pause();bukaTools();}
+
+function parseWAReactions(){
+  return document.getElementById('waReactions').value
+    .split(',')
+    .map(s=>s.trim())
+    .filter(Boolean)
+    .slice(0,10);
+}
+function updateWAReactionCount(){
+  const input=document.getElementById('waReactions');
+  const items=input.value.split(',').map(s=>s.trim()).filter(Boolean);
+  const count=document.getElementById('waReactionCount');
+  count.textContent=Math.min(items.length,5)+'/5';
+  count.style.color=items.length>5?'#ff5b8d':'#ffe957';
+}
+function addWAEmoji(emoji){
+  const input=document.getElementById('waReactions');
+  const items=input.value.split(',').map(s=>s.trim()).filter(Boolean);
+  if(items.includes(emoji)) return;
+  if(items.length>=5){
+    document.getElementById('waReactionStatus').textContent='Maksimal 5 emoji, bro.';
+    return;
+  }
+  input.value=items.length ? items.join(', ') + ', ' + emoji : emoji;
+  updateWAReactionCount();
+}
+function validateWAPostUrl(value){
+  try{
+    const u=new URL(value.trim());
+    const h=u.hostname.toLowerCase();
+    if(u.protocol!=='https:') return false;
+    return h==='whatsapp.com' || h.endsWith('.whatsapp.com');
+  }catch(e){return false;}
+}
+function sendWAReaction(){
+  const url=document.getElementById('waPostUrl').value.trim();
+  const items=document.getElementById('waReactions').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const status=document.getElementById('waReactionStatus');
+  if(!validateWAPostUrl(url)){
+    status.textContent='URL belum valid. Tempel URL postingan WhatsApp Channel yang HTTPS.';
+    return;
+  }
+  if(items.length<1 || items.length>5){
+    status.textContent='Pilih minimal 1 dan maksimal 5 emoji.';
+    return;
+  }
+  status.textContent='UI siap mengirim: '+items.join(' ')+' • Backend/API WhatsApp belum terhubung.';
+}
+</script>
+
+<script>
+async function downloadChatImage() {
+  const preview = document.getElementById('chatPreview');
+  const status = document.getElementById('downloadChatStatus');
+  const button = document.getElementById('downloadChatBtn');
+
+  if (!preview) {
+    if (status) status.textContent = 'Area hasil chat belum ditemukan.';
+    return;
+  }
+  if (status) status.textContent = 'Menyiapkan gambar PNG...';
+  if (button) button.disabled = true;
+
+  try {
+    if (!window.html2canvas) {
+      await new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        s.onload = resolve;
+        s.onerror = () => reject(new Error('Library gambar gagal dimuat. Pastikan internet aktif.'));
+        document.head.appendChild(s);
+      });
+    }
+
+    const canvas = await window.html2canvas(preview, {
+      backgroundColor: '#101a20',
+      scale: 3,
+      useCORS: true,
+      logging: false
+    });
+
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob(value => value ? resolve(value) : reject(new Error('Gambar gagal dibuat')), 'image/png');
+    });
+    const file = new File([blob], 'chat-ip-result.png', { type: 'image/png' });
+
+    // On supported Android browsers, open the system share sheet so the user can
+    // choose a Gallery/Photos app or another destination. A webpage cannot silently
+    // write directly into the Android Gallery without user interaction/permission.
+    if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: 'Hasil Chat IP',
+          text: 'Gambar hasil Chat IP'
+        });
+        if (status) status.textContent = 'Menu berbagi dibuka. Pilih Foto/Galeri atau Simpan ke perangkat, bro.';
+        return;
+      } catch (shareError) {
+        if (shareError && shareError.name === 'AbortError') {
+          if (status) status.textContent = 'Berbagi dibatalkan. Tekan lagi kalau mau menyimpan.';
+          return;
+        }
+        // If sharing isn't available, fall back to browser download.
+      }
+    }
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'chat-ip-result.png';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+    if (status) status.textContent = 'PNG diunduh ke folder Download. Buka gambarnya lalu pilih Simpan ke Galeri jika diperlukan.';
+  } catch (err) {
+    if (status) status.textContent = 'Gagal membuat gambar. Buka file lewat Chrome dengan internet aktif, lalu coba lagi.';
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+</script>
+
+</body>
+</html>
